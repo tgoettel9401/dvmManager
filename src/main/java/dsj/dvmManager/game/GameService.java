@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dsj.dvmManager.player.Player;
+import dsj.dvmManager.teamMatch.TeamMatch;
 
 @Service
 public class GameService {
@@ -17,10 +18,11 @@ public class GameService {
 		this.gameRepository = gameRepository;
 	}
 	
-	public Game createGame(Player playerWhite, Player playerBlack) {
+	public Game createGame(Player playerWhite, Player playerBlack, TeamMatch teamMatch) {
 		Game game = new Game(); 
 		game.setPlayerWhite(playerWhite);
 		game.setPlayerBlack(playerBlack);
+		game.setTeamMatch(teamMatch);
 		return game; 
 	}
 	
@@ -31,5 +33,13 @@ public class GameService {
 	public List<Game> getAllGames() {
 		return this.gameRepository.findAll();
 	}
-
+	
+	public GameDto createGameDto(Game game) {
+		GameDto dto = new GameDto();
+		dto.setPlayerWhite(game.getPlayerWhite().getName());
+		dto.setPlayerBlack(game.getPlayerBlack().getName());
+		dto.setLiChessGameId(game.getLiChessGameId());
+		return dto;
+	}
+	
 }

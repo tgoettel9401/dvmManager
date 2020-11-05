@@ -17,6 +17,10 @@ import dsj.dvmManager.game.Game;
 import dsj.dvmManager.game.GameService;
 import dsj.dvmManager.player.Player;
 import dsj.dvmManager.player.PlayerService;
+import dsj.dvmManager.team.Team;
+import dsj.dvmManager.team.TeamService;
+import dsj.dvmManager.teamMatch.TeamMatch;
+import dsj.dvmManager.teamMatch.TeamMatchService;
 
 @Component
 public class Initialization implements InitializingBean {
@@ -25,6 +29,12 @@ public class Initialization implements InitializingBean {
 
     @Autowired
     private Environment environment;
+    
+    @Autowired
+    private TeamService teamService;
+    
+    @Autowired
+    private TeamMatchService teamMatchService;
 
     @Autowired
     private PlayerService playerService;
@@ -41,30 +51,41 @@ public class Initialization implements InitializingBean {
         List<String> activeProfiles = Arrays.asList(environment.getActiveProfiles());
 
         if (activeProfiles.contains("db-init")) {
-        	List<Player> players = initializePlayers();
-        	initializeGames(players);
+        	List<Team> teams = initializeTeams();
+        	List<TeamMatch> teamMatches = initializeTeamMatches(teams);
+        	List<Player> players = initializePlayers(teams);
+        	initializeGames(players, teamMatches);
         }
     }
+    
+    private List<Team> initializeTeams() {
+    	List<Team> teams = Lists.newArrayList();
+    	teams.add(teamService.createNewTeam("Team1"));
+    	teams.add(teamService.createNewTeam("Team2"));
+    	return teams; 
+    }
+    
+    private List<TeamMatch> initializeTeamMatches(List<Team> teams) {
+    	List<TeamMatch> teamMatches = Lists.newArrayList();
+    	teamMatches.add(teamMatchService.createNewTeamMatch(teams.get(0), teams.get(1)));
+    	return teamMatches;
+    }
 
-	private List<Player> initializePlayers() {
+	private List<Player> initializePlayers(List<Team> teams) {
     	List<Player> players = Lists.newArrayList();
-    	
-    	Player player1 = playerService.createNewPlayer("Player1", "Player2", "XGllByWFymyka82M");
-    	player1 = playerService.save(player1);
-    	players.add(player1);
-    	
-    	Player player2 = playerService.createNewPlayer("Player2", "Player3", "kagj7nENb3AluEue");
-    	player2 = playerService.save(player2);
-    	players.add(player2);
-    	
+    	players.add(playerService.createNewPlayer("Kristin", "Wodzinski", "XGllByWFymyka82M", teams.get(0)));
+    	players.add(playerService.createNewPlayer("Lennart", "Quante", "kagj7nENb3AluEue", teams.get(1)));
+    	players.add(playerService.createNewPlayer("Harald", "Koppen", "", teams.get(0)));
+    	players.add(playerService.createNewPlayer("Tobias", "Göttel", "", teams.get(1)));
 		return players;
 	}
 	
-	 private void initializeGames(List<Player> players) {
+	 private void initializeGames(List<Player> players, List<TeamMatch> teamMatches) {
 		 
 		List<Game> games = Lists.newArrayList();
 
 		int counter = 1; 
+		int matchCounter = 0; // Starts with 0 because teamMatches.get(0) is first element. 
 		Player lastPlayer = null; 
 	 	for (Player player : players) {
 	 		int counterMod2 = counter % 2;
@@ -74,7 +95,7 @@ public class Initialization implements InitializingBean {
 	 		}
 	 		else { // counterMod2 == 0, means second player
 	 			Player secondPlayer = player; 
-	 			Game game = gameService.createGame(lastPlayer, secondPlayer);
+	 			Game game = gameService.createGame(lastPlayer, secondPlayer, teamMatches.get(matchCounter));
 	 			game = gameService.save(game);
 	 			games.add(game);
 	 		}

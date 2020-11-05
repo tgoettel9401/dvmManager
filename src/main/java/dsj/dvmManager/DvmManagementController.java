@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dsj.dvmManager.liChessAdapter.Challenge;
+import dsj.dvmManager.liChessAdapter.LiChessChallenge;
+import dsj.dvmManager.teamMatch.TeamMatchDto;
 
 @RestController
 public class DvmManagementController {
@@ -15,9 +16,14 @@ public class DvmManagementController {
 	private DvmManagementService dvmManagementService;
 	
 	@GetMapping("api/createChallenges")
-	public List<Challenge> createChallenges() {
-		List<Challenge> challenges = dvmManagementService.createChallenges();
+	public List<LiChessChallenge> createChallenges() {
+		List<LiChessChallenge> challenges = dvmManagementService.createChallenges();
 		return challenges;
+	}
+	
+	@GetMapping("api/getTeamMatches")
+	public List<TeamMatchDto> getTeamMatches() {
+		return dvmManagementService.findAllTeamMatchDtos();
 	}
 
 }
