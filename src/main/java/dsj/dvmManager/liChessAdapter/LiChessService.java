@@ -73,7 +73,7 @@ public class LiChessService {
 				.block()
 				.getBody();
 		
-		Optional<LiChessGame> lichessGameOptional = Optional.fromNullable(challenge.getGame());
+		Optional<LiChessChallengeGame> lichessGameOptional = Optional.fromNullable(challenge.getGame());
 		if (lichessGameOptional.isPresent()) {
 			game.setLiChessGameId(lichessGameOptional.get().getId());
 			gameService.save(game);
@@ -97,6 +97,28 @@ public class LiChessService {
 		
 		return account;
 		
+	}
+	
+	public LiChessGame getLiChessGame(Game game) {
+		
+		String uri = "/game/export/" + game.getLiChessGameId();
+		
+		Mono<ClientResponse> result = webClient.get()
+			      .uri(uriBuilder -> uriBuilder
+			    		  .path(uri)
+			    		  .queryParam("evals", "false")
+			    		  .queryParam("opening", "false")
+			    		  .queryParam("pgnInJson", "true")
+			    		  .build())
+			      .accept(MediaType.APPLICATION_JSON)
+			      .exchange();
+		
+		LiChessGame liChessGame = result.block()
+				.toEntity(LiChessGame.class)
+				.block()
+				.getBody();
+		
+		return liChessGame; 
 	}
 
 }

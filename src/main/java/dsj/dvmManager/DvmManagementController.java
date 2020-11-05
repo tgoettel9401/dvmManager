@@ -25,5 +25,10 @@ public class DvmManagementController {
 	public List<TeamMatchDto> getTeamMatches() {
 		return dvmManagementService.findAllTeamMatchDtos();
 	}
+	
+	@GetMapping("api/updateGames")
+	public void updateGames() {
+		dvmManagementService.updateGames();
+	}
 
 }

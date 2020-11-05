@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import dsj.dvmManager.game.Game;
 import dsj.dvmManager.game.GameService;
 import dsj.dvmManager.liChessAdapter.LiChessChallenge;
+import dsj.dvmManager.liChessAdapter.LiChessGame;
 import dsj.dvmManager.liChessAdapter.LiChessService;
 import dsj.dvmManager.teamMatch.TeamMatchDto;
 import dsj.dvmManager.teamMatch.TeamMatchService;
@@ -36,6 +37,20 @@ public class DvmManagementService {
 	
 	public List<TeamMatchDto> findAllTeamMatchDtos() {
 		return teamMatchService.findAllDtos();
+	}
+	
+	public void updateGames() {
+		List<Game> games = gameService.findAll();
+		for (Game game : games) {
+			if (game.getLiChessGameId() != null) {
+				LiChessGame liChessGame = liChessService.getLiChessGame(game);
+				game.setLiChessGameStatus(liChessGame.getStatus());
+				game.setLiChessGameMoves(liChessGame.getMoves());
+				game.setLiChessGameCreatedAt(liChessGame.getCreatedAt());
+				game.setLiChessGameLastMoveAt(liChessGame.getLastMoveAt());
+				gameService.save(game);
+			}
+		}
 	}
 
 }

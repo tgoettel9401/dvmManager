@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class LiChessChallenge {
 	
-	private LiChessGame game; 
-
+	private LiChessChallengeGame game;
+	
 }
+

@@ -1,5 +1,7 @@
 package dsj.dvmManager.game;
 
+import java.time.ZonedDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -25,7 +27,12 @@ public class Game {
 	@ManyToOne
 	private TeamMatch teamMatch;
 	
-	private String liChessGameId; 
+	// LiChessGameInformation
+	private String liChessGameId;
+	private String liChessGameStatus;
+	private String liChessGameMoves; 
+	private ZonedDateTime liChessGameCreatedAt;
+	private ZonedDateTime liChessGameLastMoveAt;
 	
 	public String getPairingString() {
 		return playerWhite.getName() + " - " + playerBlack.getName();
