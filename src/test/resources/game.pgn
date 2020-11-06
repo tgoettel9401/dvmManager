@@ -1,0 +1,17 @@
+[Event "Casual Rapid game"]
+[Site "https://lichess.org/BynPFwRd"]
+[Date "2020.11.05"]
+[White "kasparow94"]
+[Black "opponent28"]
+[Result "0-1"]
+[UTCDate "2020.11.05"]
+[UTCTime "20:09:02"]
+[WhiteElo "1500"]
+[BlackElo "1500"]
+[Variant "Standard"]
+[TimeControl "600+10"]
+[ECO "B22"]
+[Opening "Sicilian Defense: Alapin Variation, Barmen Defense, Modern Line"]
+[Termination "Normal"]
+
+1. e4 { [%clk 0:10:00] } c5 { [%clk 0:10:00] } 2. c3 { [%clk 0:10:08] } d5 { [%clk 0:10:09] } 3. exd5 { [%clk 0:10:17] } Qxd5 { [%clk 0:10:17] } 4. d4 { [%clk 0:10:26] } Nf6 { [%clk 0:10:26] } 5. Nf3 { [%clk 0:10:34] } Bg4 { [%clk 0:10:34] } 6. dxc5 { [%clk 0:10:43] } Qxd1+ { [%clk 0:10:42] } 7. Kxd1 { [%clk 0:10:52] } e5 { [%clk 0:10:48] } 8. b4 { [%clk 0:10:58] } e4 { [%clk 0:10:49] } 9. h3 { [%clk 0:11:06] } Bh5 { [%clk 0:10:57] } 10. g4 { [%clk 0:11:15] } Nxg4 { [%clk 0:11:02] } 11. hxg4 { [%clk 0:11:23] } Bxg4 { [%clk 0:11:10] } 12. Nd2 { [%clk 0:11:32] } exf3 { [%clk 0:11:14] } 13. Bd3 { [%clk 0:11:38] } Nc6 { [%clk 0:11:18] } 14. Re1+ { [%clk 0:11:42] } Kd7 { [%clk 0:11:25] } 0-1
