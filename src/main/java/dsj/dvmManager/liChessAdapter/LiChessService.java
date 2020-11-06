@@ -112,6 +112,8 @@ public class LiChessService {
 			    		  .build())
 			      .accept(MediaType.APPLICATION_JSON)
 			      .exchange();
+
+		String resultString = result.flatMap(response -> response.bodyToMono(String.class)).block();
 		
 		LiChessGame liChessGame = result.block()
 				.toEntity(LiChessGame.class)

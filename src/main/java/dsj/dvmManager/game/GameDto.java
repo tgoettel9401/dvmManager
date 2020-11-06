@@ -9,6 +9,7 @@ public class GameDto {
 	
 	private String playerWhite;
 	private String playerBlack;
+	private String result;
 	
 	private String liChessGameId; 
 	private String liChessGameStatus;

@@ -33,6 +33,7 @@ public class Game {
 	private String liChessGameMoves; 
 	private ZonedDateTime liChessGameCreatedAt;
 	private ZonedDateTime liChessGameLastMoveAt;
+	private String result;
 	
 	public String getPairingString() {
 		return playerWhite.getName() + " - " + playerBlack.getName();

@@ -1,5 +1,7 @@
 package dsj.dvmManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -8,6 +10,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 @Configuration
 @EnableScheduling
 public class DvmManagementScheduler {
+
+	private final Logger logger = LoggerFactory.getLogger(DvmManagementScheduler.class);
 	
 	private final DvmManagementService dvmManagementService;
 	
@@ -16,8 +20,9 @@ public class DvmManagementScheduler {
 		this.dvmManagementService = dvmManagementService;
 	}
 	
-	@Scheduled(fixedDelay = 15000) // 15 seconds
+	@Scheduled(fixedDelay = 5000) // 5 seconds
 	public void scheduleUpdateGames() {
+		logger.info("Updating games");
 		dvmManagementService.updateGames();
 	}
 

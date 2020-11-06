@@ -43,6 +43,7 @@ public class GameService {
 		GameDto dto = new GameDto();
 		dto.setPlayerWhite(game.getPlayerWhite().getName());
 		dto.setPlayerBlack(game.getPlayerBlack().getName());
+		dto.setResult(game.getResult());
 		dto.setLiChessGameId(game.getLiChessGameId());
 		dto.setLiChessGameStatus(game.getLiChessGameStatus());
 		dto.setLiChessGameMoves(game.getLiChessGameMoves());

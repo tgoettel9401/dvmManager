@@ -2,6 +2,8 @@ package dsj.dvmManager;
 
 import java.util.List;
 
+import dsj.dvmManager.pgnParser.Pgn;
+import dsj.dvmManager.pgnParser.PgnParserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +23,14 @@ public class DvmManagementService {
 	@Autowired
 	private GameService gameService; 
 	
-	@Autowired TeamMatchService teamMatchService;
+	@Autowired
+	TeamMatchService teamMatchService;
 	
 	@Autowired
 	private LiChessService liChessService;
+
+	@Autowired
+	private PgnParserService pgnParserService;
 	
 	public List<LiChessChallenge> createChallenges() {
 		List<Game> games = this.gameService.getAllGames();
@@ -48,6 +54,10 @@ public class DvmManagementService {
 				game.setLiChessGameMoves(liChessGame.getMoves());
 				game.setLiChessGameCreatedAt(liChessGame.getCreatedAt());
 				game.setLiChessGameLastMoveAt(liChessGame.getLastMoveAt());
+
+				Pgn pgn = pgnParserService.createPgnFromString(liChessGame.getPgn());
+				game.setResult(pgn.getResult().getResultString());
+
 				gameService.save(game);
 			}
 		}
