@@ -61,8 +61,7 @@ public class InitalizationComponent implements InitializingBean {
     }
 
 	private List<Team> initializeTeams() {
-		List<Team> unsavedTeams = testUserProperties.getTeams();
-		return teamService.saveAll(unsavedTeams);
+		return teamService.saveAll(testUserProperties.getTeams());
 	}
 
 	private List<TeamMatch> initializeTeamMatches(List<Team> teams) {
@@ -90,17 +89,8 @@ public class InitalizationComponent implements InitializingBean {
     	return teamMatches;
 	}
 
-//	private List<Player> initializePlayers(List<Team> teams) {
-//    	List<Player> players = Lists.newArrayList();
-//    	players.add(playerService.createNewPlayer("Ben", "1", "XGllByWFymyka82M", teams.get(0)));
-//    	players.add(playerService.createNewPlayer("Paul", "2", "kagj7nENb3AluEue", teams.get(1)));
-//    	players.add(playerService.createNewPlayer("Leon", "3", "", teams.get(0)));
-//    	players.add(playerService.createNewPlayer("Felix", "4", "", teams.get(1)));
-//		return players;
-//	}
-
 	private List<Player> initializePlayers(List<Team> teams) throws InvalidInitializationException {
-    	return testUserProperties.getPlayers(teams);
+    	return playerService.saveAll(testUserProperties.getPlayers(teams));
 	}
 	
 	 private void initializeGames(List<Player> players, List<TeamMatch> teamMatches) {
