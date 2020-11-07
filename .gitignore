@@ -26,3 +26,4 @@ target
 .mvn
 .settings
 .idea
+src/main/resources/testUser.properties
