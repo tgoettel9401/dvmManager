@@ -4,6 +4,8 @@ import java.util.List;
 
 import dsj.dvmManager.pgnParser.Pgn;
 import dsj.dvmManager.pgnParser.PgnParserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ import dsj.dvmManager.teamMatch.TeamMatchService;
 
 @Service
 public class DvmManagementService {
+
+	private final Logger logger = LoggerFactory.getLogger(DvmManagementService.class);
 	
 	@Autowired
 	private GameService gameService; 
@@ -47,6 +51,7 @@ public class DvmManagementService {
 	
 	public void updateGames() {
 		List<Game> games = gameService.findAll();
+		int updatedGameCounter = 0;
 		for (Game game : games) {
 			if (game.getLiChessGameId() != null) {
 				LiChessGame liChessGame = liChessService.getLiChessGame(game);
@@ -59,8 +64,10 @@ public class DvmManagementService {
 				game.setResult(pgn.getResult().getResultString());
 
 				gameService.save(game);
+				updatedGameCounter++;
 			}
 		}
+		logger.info("Updated " + updatedGameCounter + " games");
 	}
 
 }

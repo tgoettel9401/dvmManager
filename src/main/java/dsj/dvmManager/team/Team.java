@@ -12,6 +12,7 @@ import com.google.common.collect.Lists;
 
 import dsj.dvmManager.player.Player;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -23,6 +24,7 @@ public class Team {
 	private String name; 
 	
 	@OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
+	@ToString.Exclude
 	private List<Player> players = Lists.newArrayList();
 
 }

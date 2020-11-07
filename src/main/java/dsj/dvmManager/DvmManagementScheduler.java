@@ -10,8 +10,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 @Configuration
 @EnableScheduling
 public class DvmManagementScheduler {
-
-	private final Logger logger = LoggerFactory.getLogger(DvmManagementScheduler.class);
 	
 	private final DvmManagementService dvmManagementService;
 	
@@ -22,7 +20,6 @@ public class DvmManagementScheduler {
 	
 	@Scheduled(fixedDelay = 5000) // 5 seconds
 	public void scheduleUpdateGames() {
-		logger.info("Updating games");
 		dvmManagementService.updateGames();
 	}
 

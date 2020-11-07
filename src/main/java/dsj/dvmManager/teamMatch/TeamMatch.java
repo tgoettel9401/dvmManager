@@ -14,6 +14,7 @@ import com.google.common.collect.Lists;
 import dsj.dvmManager.game.Game;
 import dsj.dvmManager.team.Team;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -29,6 +30,7 @@ public class TeamMatch {
 	private Team teamBlack;
 	
 	@OneToMany(mappedBy = "teamMatch", fetch = FetchType.LAZY)
+	@ToString.Exclude
 	private List<Game> games = Lists.newArrayList();
 
 }
