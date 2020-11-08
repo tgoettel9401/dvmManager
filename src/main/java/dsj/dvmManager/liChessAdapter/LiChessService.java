@@ -62,7 +62,7 @@ public class LiChessService {
 			      .headers(h -> h.setBearerAuth(accessToken))
 			      .body(BodyInserters.fromFormData("clock.limit", clockLimit)
 			    		  .with("clock.increment", clockIncrement)
-			    		  .with("color", "black")
+			    		  .with("color", "white")
 			    		  .with("variant", variant)
 			    		  .with("acceptByToken", acceptByToken))
 			      .accept(MediaType.APPLICATION_JSON)
