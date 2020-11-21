@@ -143,7 +143,7 @@ public class InitalizationComponent implements InitializingBean {
 				Player playerTeam1 = playersTeamWhite.get(i - 1);
 				Player playerTeam2 = playersTeamBlack.get(i - 1);
 
-				boolean team1HasWhite = (i % 2) == 1;
+				boolean team1HasWhite = Math.abs(i) % 2 == 1;
 
 				Game game = new Game();
 				if (team1HasWhite) {
