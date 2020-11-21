@@ -3,9 +3,9 @@ package dsj.dvmManager;
 import com.google.common.collect.Lists;
 import dsj.dvmManager.game.Game;
 import dsj.dvmManager.game.GameService;
+import dsj.dvmManager.liChessAdapter.LiChessAdapter;
 import dsj.dvmManager.liChessAdapter.LiChessChallenge;
 import dsj.dvmManager.liChessAdapter.LiChessGame;
-import dsj.dvmManager.liChessAdapter.LiChessService;
 import dsj.dvmManager.pgnParser.PgnGame;
 import dsj.dvmManager.pgnParser.PgnParserService;
 import dsj.dvmManager.player.Player;
@@ -40,12 +40,12 @@ public class DvmManagementService {
 
     private final GameService gameService;
     private final TeamMatchService teamMatchService;
-    private final LiChessService liChessService;
+    private final LiChessAdapter liChessService;
     private final PgnParserService pgnParserService;
 
     @Autowired
     public DvmManagementService(GameService gameService, TeamMatchService teamMatchService,
-                                LiChessService liChessService, PgnParserService pgnParserService,
+                                LiChessAdapter liChessService, PgnParserService pgnParserService,
                                 SwissChessPgnImportService swissChessPgnImportService,
                                 SwissChessLstImportService swissChessLstImportService,
                                 TeamService teamService, PlayerService playerService) {

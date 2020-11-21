@@ -6,6 +6,7 @@ import dsj.dvmManager.player.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -17,15 +18,16 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class LiChessService {
-	
+@Profile("!local")
+public class LiChessService implements LiChessAdapter {
+
 	@Autowired
-	private GameService gameService; 
-	
+	private GameService gameService;
+
 	private final Logger logger = LoggerFactory.getLogger(LiChessService.class);
-	
+
 	private final WebClient webClient = WebClient.create("https://lichess.org");
-	
+
 	private final String clockLimit = "600"; // in seconds
 	private final String clockIncrement = "10"; // in seconds
 	private final String variant = "standard"; // standard-chess, could also be e.g. Chess960
