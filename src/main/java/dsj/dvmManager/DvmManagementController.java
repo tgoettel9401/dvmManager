@@ -4,10 +4,7 @@ import dsj.dvmManager.game.Game;
 import dsj.dvmManager.liChessAdapter.LiChessChallenge;
 import dsj.dvmManager.player.Player;
 import dsj.dvmManager.teamMatch.TeamMatchDto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

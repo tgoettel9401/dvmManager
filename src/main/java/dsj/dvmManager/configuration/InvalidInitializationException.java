@@ -1,6 +1,4 @@
-package dsj.dvmManager.initialization;
-
-import lombok.NoArgsConstructor;
+package dsj.dvmManager.configuration;
 
 public class InvalidInitializationException extends Exception {
 

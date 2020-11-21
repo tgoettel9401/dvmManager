@@ -1,4 +1,4 @@
-package dsj.dvmManager.initialization;
+package dsj.dvmManager.configuration;
 
 import lombok.Data;
 

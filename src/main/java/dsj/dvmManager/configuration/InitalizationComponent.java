@@ -1,8 +1,9 @@
-package dsj.dvmManager.initialization;
+package dsj.dvmManager.configuration;
 
 import com.github.javafaker.Faker;
 import com.google.common.collect.Lists;
 import dsj.dvmManager.game.Game;
+import dsj.dvmManager.game.GameResult;
 import dsj.dvmManager.game.GameService;
 import dsj.dvmManager.player.Player;
 import dsj.dvmManager.player.PlayerService;
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Profile("local")
 @Component
 public class InitalizationComponent implements InitializingBean {
 
@@ -127,8 +130,8 @@ public class InitalizationComponent implements InitializingBean {
 		List<Player> players = playerService.findAll();
 
 		for (TeamMatch teamMatch : teamMatches) {
-			Team teamWhite = teamMatch.getTeamWhite();
-			Team teamBlack = teamMatch.getTeamBlack();
+			Team teamWhite = teamMatch.getTeamHome();
+			Team teamBlack = teamMatch.getTeamAway();
 
 			List<Player> playersTeamWhite = players.stream()
 					.filter(player -> player.getTeam().getId().equals(teamWhite.getId()))
@@ -153,7 +156,7 @@ public class InitalizationComponent implements InitializingBean {
 					game.setPlayerWhite(playerTeam2);
 					game.setPlayerBlack(playerTeam1);
 				}
-				game.setResult("0-1");
+				game.setResult(GameResult.BLACK_WINS);
 				game.setTeamMatch(teamMatch);
 				gameService.save(game);
 			}

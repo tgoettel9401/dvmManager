@@ -1,4 +1,4 @@
-package dsj.dvmManager.initialization;
+package dsj.dvmManager.configuration;
 
 import com.google.common.collect.Lists;
 import dsj.dvmManager.player.Player;
