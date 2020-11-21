@@ -85,7 +85,7 @@ public class DvmManagementService {
 
                 List<PgnGame> pgns = pgnParserService.createPgnListFromString(liChessGame.getPgn());
                 if (pgns.stream().findFirst().isPresent())
-                    game.setResult(pgns.stream().findFirst().get().getResult().getResultString());
+                    game.setResult(gameService.getGameResultFromPgnResult(pgns.stream().findFirst().get().getResult()));
 
                 gameService.save(game);
                 updatedGameCounter++;

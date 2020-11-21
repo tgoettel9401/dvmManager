@@ -24,10 +24,10 @@ public class TeamMatch {
 	private Long id;
 	
 	@ManyToOne
-	private Team teamWhite;
+	private Team teamHome;
 	
 	@ManyToOne
-	private Team teamBlack;
+	private Team teamAway;
 	
 	@OneToMany(mappedBy = "teamMatch", fetch = FetchType.LAZY)
 	@ToString.Exclude

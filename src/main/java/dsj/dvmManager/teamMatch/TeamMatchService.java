@@ -29,8 +29,8 @@ public class TeamMatchService {
 
     public TeamMatch createNewTeamMatch(Team teamWhite, Team teamBlack) {
         TeamMatch teamMatch = new TeamMatch();
-        teamMatch.setTeamWhite(teamWhite);
-        teamMatch.setTeamBlack(teamBlack);
+        teamMatch.setTeamHome(teamWhite);
+        teamMatch.setTeamAway(teamBlack);
         return save(teamMatch);
     }
 
@@ -39,17 +39,17 @@ public class TeamMatchService {
     }
 
     public TeamMatch findOrCreateTeamMatch(Team teamWhite, Team teamBlack) {
-        Optional<TeamMatch> teamMatchOptional = teamMatchRepository.findByTeamWhiteAndTeamBlack(teamWhite, teamBlack);
-        Optional<TeamMatch> teamMatchOptionalReversed = teamMatchRepository.findByTeamWhiteAndTeamBlack(teamBlack, teamWhite);
+        Optional<TeamMatch> teamMatchOptional = teamMatchRepository.findByTeamHomeAndTeamAway(teamWhite, teamBlack);
+        Optional<TeamMatch> teamMatchOptionalReversed = teamMatchRepository.findByTeamHomeAndTeamAway(teamBlack, teamWhite);
         return teamMatchOptional.orElseGet(() -> teamMatchOptionalReversed.orElseGet(() -> createNewTeamMatch(teamWhite, teamBlack)));
     }
 
     public TeamMatchDto createTeamMatchDto(TeamMatch teamMatch) {
         TeamMatchDto dto = new TeamMatchDto();
-        dto.setTeamWhite(teamMatch.getTeamWhite().getName());
-        dto.setTeamBlack(teamMatch.getTeamBlack().getName());
+        dto.setTeamHome(teamMatch.getTeamHome().getName());
+        dto.setTeamAway(teamMatch.getTeamAway().getName());
         for (Game game : teamMatch.getGames())
-            dto.getGames().add(gameService.createGameDto(game));
+            dto.getGames().add(gameService.createGameDto(teamMatch.getTeamHome(), game));
         return dto;
     }
 

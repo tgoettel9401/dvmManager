@@ -55,7 +55,7 @@ class GameServiceTest {
         when(playerService.findByNameAndTeamName("Player-Black", "Team-Black")).thenReturn(playerBlack);
 
         Game correctGame = mock(Game.class);
-        when(correctGame.getResult()).thenReturn(PgnResult.WHITE_WINS.getResultString());
+        when(correctGame.getResult()).thenReturn(GameResult.WHITE_WINS);
         when(correctGame.getPlayerWhite()).thenReturn(playerWhite);
         when(correctGame.getPlayerBlack()).thenReturn(playerBlack);
 

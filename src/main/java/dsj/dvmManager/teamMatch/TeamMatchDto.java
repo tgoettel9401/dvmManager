@@ -10,9 +10,23 @@ import lombok.Data;
 @Data
 public class TeamMatchDto {
 
-	private String teamWhite;
-	private String teamBlack;
+	private String teamHome;
+	private String teamAway;
 	
 	private List<GameDto> games = Lists.newArrayList();
+
+	public double getPointsTeamHome() {
+		double points = 0.0;
+		for (GameDto game : games)
+			points += game.getPointsPlayerHome();
+		return points;
+	}
+
+	public double getPointsTeamAway() {
+		double points = 0.0;
+		for (GameDto game : games)
+			points += game.getPointsPlayerAway();
+		return points;
+	}
 	
 }

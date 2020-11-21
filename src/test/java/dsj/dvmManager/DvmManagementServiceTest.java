@@ -2,6 +2,7 @@ package dsj.dvmManager;
 
 import com.google.common.collect.Lists;
 import dsj.dvmManager.game.Game;
+import dsj.dvmManager.game.GameResult;
 import dsj.dvmManager.game.GameService;
 import dsj.dvmManager.pgnParser.PgnResult;
 import dsj.dvmManager.player.Player;
@@ -127,7 +128,7 @@ class DvmManagementServiceTest {
             swGames.add(swGame);
 
             Game game = new Game();
-            game.setResult(swGame.getResult().getResultString());
+            game.setResult(GameResult.DRAW);
             Player playerWhite = mock(Player.class);
             when(playerWhite.getName()).thenReturn(swGame.getPlayerNameWhite());
             game.setPlayerWhite(playerWhite);
@@ -154,7 +155,7 @@ class DvmManagementServiceTest {
         for (int i = 0; i <= 5; i++) {
             Game returnedGame = returnedGames.get(i);
             SwissChessGame correctGame = swGames.get(i);
-            assertThat(returnedGame.getResult()).isEqualTo(correctGame.getResult().getResultString());
+            assertThat(returnedGame.getResult()).isEqualTo(GameResult.DRAW);
             assertThat(returnedGame.getPlayerWhite().getName()).isEqualTo(correctGame.getPlayerNameWhite());
             assertThat(returnedGame.getPlayerBlack().getName()).isEqualTo(correctGame.getPlayerNameBlack());
         }

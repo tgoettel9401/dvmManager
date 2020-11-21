@@ -1,9 +1,11 @@
 package dsj.dvmManager.game;
 
+import dsj.dvmManager.pgnParser.PgnResult;
 import dsj.dvmManager.player.Player;
 import dsj.dvmManager.player.PlayerNotFoundException;
 import dsj.dvmManager.player.PlayerService;
 import dsj.dvmManager.swissChessImport.SwissChessGame;
+import dsj.dvmManager.team.Team;
 import dsj.dvmManager.team.TeamNotFoundException;
 import dsj.dvmManager.teamMatch.TeamMatch;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,7 @@ public class GameService {
         game.setPlayerWhite(playerWhite);
         game.setPlayerBlack(playerBlack);
         game.setTeamMatch(teamMatch);
-        game.setResult("");
+        game.setResult(GameResult.UNKNOWN);
         return save(game);
     }
 
@@ -44,16 +46,33 @@ public class GameService {
         return this.gameRepository.findAll();
     }
 
-    public GameDto createGameDto(Game game) {
+    public GameDto createGameDto(Team teamHome, Game game) {
         GameDto dto = new GameDto();
-        dto.setPlayerWhite(game.getPlayerWhite().getName());
-        dto.setPlayerBlack(game.getPlayerBlack().getName());
-        dto.setResult(game.getResult());
+
+        // Player Home is playing with white.
+        if (game.getPlayerWhite().getTeam().equals(teamHome)) {
+            dto.setPlayerHome(game.getPlayerWhite().getName());
+            dto.setPlayerHomeColor(GameColor.WHITE);
+            dto.setPlayerAway(game.getPlayerBlack().getName());
+            dto.setPlayerAwayColor(GameColor.BLACK);
+            dto.setResult(game.getResult());
+        }
+
+        // Player Home is playing with black.
+        else {
+            dto.setPlayerHome(game.getPlayerBlack().getName());
+            dto.setPlayerHomeColor(GameColor.BLACK);
+            dto.setPlayerAway(game.getPlayerWhite().getName());
+            dto.setPlayerAwayColor(GameColor.WHITE);
+            dto.setResult(game.getResult().getOppositeResult());
+        }
+
         dto.setLiChessGameId(game.getLiChessGameId());
         dto.setLiChessGameStatus(game.getLiChessGameStatus());
         dto.setLiChessGameMoves(game.getLiChessGameMoves());
         dto.setLiChessGameCreatedAt(game.getLiChessGameCreatedAt());
         dto.setLiChessGameLastMoveAt(game.getLiChessGameLastMoveAt());
+        dto.setGame(game);
         return dto;
     }
 
@@ -66,6 +85,16 @@ public class GameService {
         // Create and return Game.
         return createGame(playerWhite, playerBlack, teamMatch);
 
+    }
+
+    public GameResult getGameResultFromPgnResult(PgnResult pgnResult) {
+        if (pgnResult.equals(PgnResult.WHITE_WINS))
+            return GameResult.WHITE_WINS;
+        if (pgnResult.equals(PgnResult.BLACK_WINS))
+            return GameResult.BLACK_WINS;
+        if (pgnResult.equals(PgnResult.DRAW))
+            return GameResult.DRAW;
+        return GameResult.UNKNOWN;
     }
 
 }

@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface TeamMatchRepository extends JpaRepository<TeamMatch, Long> {
-    Optional<TeamMatch> findByTeamWhiteAndTeamBlack(Team teamWhite, Team teamBlack);
+    Optional<TeamMatch> findByTeamHomeAndTeamAway(Team teamHome, Team teamAway);
 }
