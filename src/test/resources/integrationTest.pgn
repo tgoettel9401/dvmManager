@@ -1,0 +1,34 @@
+[Event "SF Essen-Katernberg-Hamburger SK"]
+[Site "Braunschweig"]
+[Date "2019.12.29"]
+[Time "14:30:00"]
+[Round "6.1"]
+[Board "1"]
+[White "Player1LastName,FirstName"]
+[Black "Player4LastName,FirstName"]
+[Result ""]
+[WhiteElo "2539"]
+[BlackElo "2306"]
+[WhiteTeam "Team1"]
+[BlackTeam "Team2"]
+[Annotator "Rnd./Pair./Board: 06.001.01"]
+
+
+
+
+[Event "SF Essen-Katernberg-Hamburger SK"]
+[Site "Braunschweig"]
+[Date "2019.12.29"]
+[Time "14:30:00"]
+[Round "6.2"]
+[Board "2"]
+[White "Player2LastName,FirstName"]
+[Black "Player3LastName,FirstName"]
+[Result ""]
+[WhiteElo "2167"]
+[BlackElo "2177"]
+[WhiteTeam "Team2"]
+[BlackTeam "Team1"]
+[Annotator "Rnd./Pair./Board: 06.001.02"]
+
+

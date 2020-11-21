@@ -1,73 +1,147 @@
 package dsj.dvmManager;
 
-import java.util.List;
-
-import dsj.dvmManager.pgnParser.Pgn;
-import dsj.dvmManager.pgnParser.PgnParserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.google.common.collect.Lists;
-
 import dsj.dvmManager.game.Game;
 import dsj.dvmManager.game.GameService;
 import dsj.dvmManager.liChessAdapter.LiChessChallenge;
 import dsj.dvmManager.liChessAdapter.LiChessGame;
 import dsj.dvmManager.liChessAdapter.LiChessService;
+import dsj.dvmManager.pgnParser.PgnGame;
+import dsj.dvmManager.pgnParser.PgnParserService;
+import dsj.dvmManager.player.Player;
+import dsj.dvmManager.player.PlayerNotFoundException;
+import dsj.dvmManager.player.PlayerService;
+import dsj.dvmManager.swissChessImport.*;
+import dsj.dvmManager.team.Team;
+import dsj.dvmManager.team.TeamNotFoundException;
+import dsj.dvmManager.team.TeamService;
+import dsj.dvmManager.teamMatch.TeamMatch;
 import dsj.dvmManager.teamMatch.TeamMatchDto;
 import dsj.dvmManager.teamMatch.TeamMatchService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 @Service
 public class DvmManagementService {
 
-	private final Logger logger = LoggerFactory.getLogger(DvmManagementService.class);
-	
-	@Autowired
-	private GameService gameService; 
-	
-	@Autowired
-	TeamMatchService teamMatchService;
-	
-	@Autowired
-	private LiChessService liChessService;
+    private final Logger logger = LoggerFactory.getLogger(DvmManagementService.class);
 
-	@Autowired
-	private PgnParserService pgnParserService;
-	
-	public List<LiChessChallenge> createChallenges() {
-		List<Game> games = this.gameService.getAllGames();
-		List<LiChessChallenge> challenges = Lists.newArrayList();
-		for (Game game: games) {
-			challenges.add(liChessService.createChallenge(game));
-		}
-		return challenges; 
-	}
-	
-	public List<TeamMatchDto> findAllTeamMatchDtos() {
-		return teamMatchService.findAllDtos();
-	}
-	
-	public void updateGames() {
-		List<Game> games = gameService.findAll();
-		int updatedGameCounter = 0;
-		for (Game game : games) {
-			if (game.getLiChessGameId() != null) {
-				LiChessGame liChessGame = liChessService.getLiChessGame(game);
-				game.setLiChessGameStatus(liChessGame.getStatus());
-				game.setLiChessGameMoves(liChessGame.getMoves());
-				game.setLiChessGameCreatedAt(liChessGame.getCreatedAt());
-				game.setLiChessGameLastMoveAt(liChessGame.getLastMoveAt());
+    private final SwissChessLstImportService swissChessLstImportService;
+    private final SwissChessPgnImportService swissChessPgnImportService;
 
-				Pgn pgn = pgnParserService.createPgnFromString(liChessGame.getPgn());
-				game.setResult(pgn.getResult().getResultString());
+    private final TeamService teamService;
+    private final PlayerService playerService;
 
-				gameService.save(game);
-				updatedGameCounter++;
-			}
-		}
-		logger.info("Updated " + updatedGameCounter + " games");
-	}
+    private final GameService gameService;
+    private final TeamMatchService teamMatchService;
+    private final LiChessService liChessService;
+    private final PgnParserService pgnParserService;
+
+    @Autowired
+    public DvmManagementService(GameService gameService, TeamMatchService teamMatchService,
+                                LiChessService liChessService, PgnParserService pgnParserService,
+                                SwissChessPgnImportService swissChessPgnImportService,
+                                SwissChessLstImportService swissChessLstImportService,
+                                TeamService teamService, PlayerService playerService) {
+        this.gameService = gameService;
+        this.teamMatchService = teamMatchService;
+        this.liChessService = liChessService;
+        this.pgnParserService = pgnParserService;
+        this.swissChessLstImportService = swissChessLstImportService;
+        this.swissChessPgnImportService = swissChessPgnImportService;
+        this.teamService = teamService;
+        this.playerService = playerService;
+    }
+
+    public List<LiChessChallenge> createChallenges() {
+        List<Game> games = this.gameService.getAllGames();
+        List<LiChessChallenge> challenges = Lists.newArrayList();
+        for (Game game : games) {
+            challenges.add(liChessService.createChallenge(game));
+        }
+        return challenges;
+    }
+
+    public List<TeamMatchDto> findAllTeamMatchDtos() {
+        return teamMatchService.findAllDtos();
+    }
+
+    public void updateGames() {
+        List<Game> games = gameService.findAll();
+        int updatedGameCounter = 0;
+        for (Game game : games) {
+            if (game.getLiChessGameId() != null) {
+                LiChessGame liChessGame = liChessService.getLiChessGame(game);
+                game.setLiChessGameStatus(liChessGame.getStatus());
+                game.setLiChessGameMoves(liChessGame.getMoves());
+                game.setLiChessGameCreatedAt(liChessGame.getCreatedAt());
+                game.setLiChessGameLastMoveAt(liChessGame.getLastMoveAt());
+
+                List<PgnGame> pgns = pgnParserService.createPgnListFromString(liChessGame.getPgn());
+                if (pgns.stream().findFirst().isPresent())
+                    game.setResult(pgns.stream().findFirst().get().getResult().getResultString());
+
+                gameService.save(game);
+                updatedGameCounter++;
+            }
+        }
+        logger.info("Updated " + updatedGameCounter + " games");
+    }
+
+    public List<Player> importSwissChessLstFile(InputStream inputStream) {
+
+        // Get result for import.
+        SwissChessLstResult swissChessLstResult = swissChessLstImportService.importSwissChessLst(inputStream);
+
+        // Import and save teams first
+        List<SwissChessTeam> swissChessTeams = swissChessLstResult.getTeams();
+        List<Team> teams = Lists.newArrayList();
+        swissChessTeams.forEach(swissChessTeam -> teams.add(teamService.createNewTeamForSwissChessTeam(swissChessTeam)));
+
+        // Then save and import Players. Find the correct team for every player.
+        List<SwissChessPlayer> swissChessPlayers = swissChessLstResult.getPlayers();
+        List<Player> players = Lists.newArrayList();
+        swissChessPlayers.forEach(swissChessPlayer -> {
+            Team teamOfPlayer = teams.stream()
+                    .filter(
+                            team -> team.getName().equals(swissChessPlayer.getTeamName()))
+                    .findFirst()
+                    .orElse(null);
+            players.add(playerService.createPlayerForSwissChessPlayer(swissChessPlayer, teamOfPlayer));
+        });
+
+        return players;
+
+    }
+
+    public List<Game> importSwissChessPgnFile(InputStream inputStream) throws IOException {
+
+        // Get result for import.
+        SwissChessPgnResult swissChessPgnResult = swissChessPgnImportService.importSwissChessPgn(inputStream);
+
+        // Import, save and return games.
+        List<SwissChessGame> swissChessGames = swissChessPgnResult.getGames();
+        List<Game> games = Lists.newArrayList();
+
+        for (SwissChessGame swissChessGame : swissChessGames) {
+            try {
+                Team teamWhite = teamService.findByName(swissChessGame.getTeamNameWhite());
+                Team teamBlack = teamService.findByName(swissChessGame.getTeamNameBlack());
+                TeamMatch teamMatch = teamMatchService.findOrCreateTeamMatch(teamWhite, teamBlack);
+                games.add(gameService.createGameForSwissChessGame(swissChessGame, teamMatch));
+            } catch (TeamNotFoundException | PlayerNotFoundException exception) {
+                exception.printStackTrace();
+            }
+        }
+
+        return games;
+
+    }
 
 }

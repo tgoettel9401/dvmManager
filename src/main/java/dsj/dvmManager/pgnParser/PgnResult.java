@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum PgnResult {
-    WHITE_WINS ("1-0"), BLACK_WINS("0-1"), DRAW("0.5-0.5"), UNKNOWN("");
+    WHITE_WINS("1-0"), BLACK_WINS("0-1"), DRAW("1/2-1/2"), UNKNOWN("");
 
     private String resultString;
 
@@ -13,7 +13,7 @@ public enum PgnResult {
     }
 
     static PgnResult fromResultString(String resultString) {
-        switch(resultString) {
+        switch (resultString) {
             case "1-0":
                 return WHITE_WINS;
             case "0-1":
