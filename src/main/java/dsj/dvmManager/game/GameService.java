@@ -97,4 +97,9 @@ public class GameService {
         return GameResult.UNKNOWN;
     }
 
+    public void deleteAll() {
+        gameRepository.deleteAll();
+        gameRepository.flush();
+    }
+
 }

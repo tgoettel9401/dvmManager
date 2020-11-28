@@ -96,6 +96,11 @@ public class DvmManagementService {
 
     public List<Player> importSwissChessLstFile(InputStream inputStream) {
 
+        gameService.deleteAll();
+        teamMatchService.deleteAll();
+        playerService.deleteAll();
+        teamService.deleteAll();
+
         // Get result for import.
         SwissChessLstResult swissChessLstResult = swissChessLstImportService.importSwissChessLst(inputStream);
 

@@ -65,6 +65,11 @@ public class PlayerService {
         return save(player);
     }
 
+    public void deleteAll() {
+        playerRepository.deleteAll();
+        playerRepository.flush();
+    }
+
     // Returns a firstName if the name consists of two parts, divided by a comma.
     // Hence format of name is always [{LastName}, {FirstName}]
     private String getFirstNameFromName(String name) {

@@ -59,4 +59,9 @@ public class TeamMatchService {
         return dtos;
     }
 
+    public void deleteAll() {
+        teamMatchRepository.deleteAll();
+        teamMatchRepository.flush();
+    }
+
 }

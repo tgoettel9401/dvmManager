@@ -48,5 +48,10 @@ public class TeamService {
         return createNewTeam(swissChessTeam.getTeamName());
     }
 
+    public void deleteAll() {
+        teamRepository.deleteAll();
+        teamRepository.flush();
+    }
+
 
 }
