@@ -103,4 +103,8 @@ public class PlayerService {
 
     }
 
+    public Player findById(Long playerWhiteId) throws PlayerNotFoundException {
+        Optional<Player> playerOptional = playerRepository.findById(playerWhiteId);
+        return playerOptional.orElseThrow(PlayerNotFoundException::new);
+    }
 }

@@ -3,6 +3,7 @@ package dsj.dvmManager;
 import com.google.common.collect.Lists;
 import dsj.dvmManager.game.Game;
 import dsj.dvmManager.game.GameService;
+import dsj.dvmManager.game.ManualGameRequest;
 import dsj.dvmManager.liChessAdapter.*;
 import dsj.dvmManager.pgnParser.PgnGame;
 import dsj.dvmManager.pgnParser.PgnParserService;
@@ -15,6 +16,7 @@ import dsj.dvmManager.team.TeamNotFoundException;
 import dsj.dvmManager.team.TeamService;
 import dsj.dvmManager.teamMatch.TeamMatch;
 import dsj.dvmManager.teamMatch.TeamMatchDto;
+import dsj.dvmManager.teamMatch.TeamMatchNotFoundException;
 import dsj.dvmManager.teamMatch.TeamMatchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -179,4 +181,10 @@ public class DvmManagementService {
 
     }
 
+    public Game createGameManually(ManualGameRequest gameRequest) throws PlayerNotFoundException, TeamMatchNotFoundException {
+        Player playerWhite = playerService.findById(gameRequest.getPlayerWhiteId());
+        Player playerBlack = playerService.findById(gameRequest.getPlayerBlackId());
+        TeamMatch teamMatch = teamMatchService.findById(gameRequest.getTeamMatchId());
+        return gameService.createGame(playerWhite, playerBlack, teamMatch);
+    }
 }

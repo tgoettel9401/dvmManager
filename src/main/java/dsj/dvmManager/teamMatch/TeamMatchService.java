@@ -64,4 +64,7 @@ public class TeamMatchService {
         teamMatchRepository.flush();
     }
 
+    public TeamMatch findById(Long teamMatchId) throws TeamMatchNotFoundException {
+        return teamMatchRepository.findById(teamMatchId).orElseThrow(TeamMatchNotFoundException::new);
+    }
 }

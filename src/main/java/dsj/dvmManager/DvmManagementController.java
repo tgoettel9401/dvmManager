@@ -1,9 +1,12 @@
 package dsj.dvmManager;
 
 import dsj.dvmManager.game.Game;
+import dsj.dvmManager.game.ManualGameRequest;
 import dsj.dvmManager.liChessAdapter.LiChessChallenge;
 import dsj.dvmManager.player.Player;
+import dsj.dvmManager.player.PlayerNotFoundException;
 import dsj.dvmManager.teamMatch.TeamMatchDto;
+import dsj.dvmManager.teamMatch.TeamMatchNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,6 +52,11 @@ public class DvmManagementController {
             @RequestParam(value = "withDelete", required = false, defaultValue = "false") boolean withDelete)
             throws IOException {
         return dvmManagementService.importSwissChessPgnFile(multipartFile.getInputStream(), withDelete);
+    }
+
+    @PostMapping("api/createGameManually")
+    public Game createGameManually(@RequestBody ManualGameRequest gameRequest) throws TeamMatchNotFoundException, PlayerNotFoundException {
+        return dvmManagementService.createGameManually(gameRequest);
     }
 
 }
