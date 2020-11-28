@@ -30,7 +30,7 @@ public class SwissChessLstImportService {
             Optional<SwissChessTeam> teamOptional = teams.stream().filter(team -> team.getTeamName().equals(lstEntry.getTeamName())).findFirst();
             if (teamOptional.isEmpty()) {
                 SwissChessTeam team = new SwissChessTeam();
-                team.setTeamName(lstEntry.getTeamName());
+                team.setTeamName(lstEntry.getTeamName().trim());
                 teams.add(team);
             }
         });
@@ -43,9 +43,9 @@ public class SwissChessLstImportService {
 
         lstEntries.forEach(lstEntry -> {
             SwissChessPlayer player = new SwissChessPlayer();
-            player.setPlayerName(lstEntry.getPlayerName());
-            player.setTeamName(lstEntry.getTeamName());
-            player.setAccessToken(lstEntry.getAccessToken());
+            player.setPlayerName(lstEntry.getPlayerName().trim());
+            player.setTeamName(lstEntry.getTeamName().trim());
+            player.setAccessToken(lstEntry.getAccessToken().trim());
             players.add(player);
         });
 
