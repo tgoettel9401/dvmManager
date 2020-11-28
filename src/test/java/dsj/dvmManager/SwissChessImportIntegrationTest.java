@@ -87,7 +87,7 @@ public class SwissChessImportIntegrationTest {
 
         InputStream pgnInputStream = getPgnInputStream();
 
-        dvmManagementService.importSwissChessPgnFile(pgnInputStream);
+        dvmManagementService.importSwissChessPgnFile(pgnInputStream, true);
 
         // aaaaaaaaaaaaaaa TEAM_MATCHES aaaaaaaaaaaaaaaaaaaa
 

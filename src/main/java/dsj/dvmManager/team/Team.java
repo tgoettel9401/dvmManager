@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.google.common.collect.Lists;
 
 import dsj.dvmManager.player.Player;
@@ -25,6 +26,7 @@ public class Team {
 	
 	@OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
 	@ToString.Exclude
+	@JsonBackReference
 	private List<Player> players = Lists.newArrayList();
 
 }

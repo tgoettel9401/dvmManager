@@ -150,7 +150,7 @@ class DvmManagementServiceTest {
 
         InputStream inputStream = mock(InputStream.class);
         when(swissChessPgnImportService.importSwissChessPgn(inputStream)).thenReturn(pgnResult);
-        List<Game> returnedGames = dvmManagementService.importSwissChessPgnFile(inputStream);
+        List<Game> returnedGames = dvmManagementService.importSwissChessPgnFile(inputStream, true);
 
         for (int i = 0; i <= 5; i++) {
             Game returnedGame = returnedGames.get(i);

@@ -125,7 +125,12 @@ public class DvmManagementService {
 
     }
 
-    public List<Game> importSwissChessPgnFile(InputStream inputStream) throws IOException {
+    public List<Game> importSwissChessPgnFile(InputStream inputStream, boolean withDelete) throws IOException {
+
+        if (withDelete) {
+            gameService.deleteAll();
+            teamMatchService.deleteAll();
+        }
 
         // Get result for import.
         SwissChessPgnResult swissChessPgnResult = swissChessPgnImportService.importSwissChessPgn(inputStream);

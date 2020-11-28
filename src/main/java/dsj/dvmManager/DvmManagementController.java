@@ -40,8 +40,10 @@ public class DvmManagementController {
     }
 
     @PostMapping("api/importSwissChessPgnFile")
-    public List<Game> importSwissChessPgnFile(@RequestParam("file") MultipartFile multipartFile) throws IOException {
-        return dvmManagementService.importSwissChessPgnFile(multipartFile.getInputStream());
+    public List<Game> importSwissChessPgnFile(@RequestParam("file") MultipartFile multipartFile,
+            @RequestParam(value = "withDelete", required = false, defaultValue = "false") boolean withDelete)
+            throws IOException {
+        return dvmManagementService.importSwissChessPgnFile(multipartFile.getInputStream(), withDelete);
     }
 
 }
