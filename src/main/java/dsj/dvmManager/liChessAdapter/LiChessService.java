@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ClientResponse;
@@ -32,7 +34,7 @@ public class LiChessService implements LiChessAdapter {
 	private final String clockIncrement = "10"; // in seconds
 	private final String variant = "standard"; // standard-chess, could also be e.g. Chess960
 	
-	public LiChessChallenge createChallenge(Game game) {
+	public LiChessChallenge createChallenge(Game game) throws LiChessAccountNotFoundException {
 
 		Player playerWhite = game.getPlayerWhite();
 		Player playerBlack = game.getPlayerBlack();
@@ -84,13 +86,22 @@ public class LiChessService implements LiChessAdapter {
 		return challenge;
 	}
 	
-	public LiChessAccount readAccount(Player player) {
+	public LiChessAccount readAccount(Player player) throws LiChessAccountNotFoundException {
 
 		Mono<ClientResponse> result = webClient.get()
 				.uri("/api/account")
 				.headers(h -> h.setBearerAuth(player.getAccessToken()))
 				.accept(MediaType.APPLICATION_JSON)
 				.exchange();
+
+		ResponseEntity<LiChessAccount> liChessAccountResponseEntity = result
+				.block()
+				.toEntity(LiChessAccount.class)
+				.block();
+
+		if (liChessAccountResponseEntity.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
+			throw new LiChessAccountNotFoundException();
+		}
 
 		return Objects.requireNonNull(
 				Objects.requireNonNull(result.block())

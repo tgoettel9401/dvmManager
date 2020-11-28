@@ -3,9 +3,7 @@ package dsj.dvmManager;
 import com.google.common.collect.Lists;
 import dsj.dvmManager.game.Game;
 import dsj.dvmManager.game.GameService;
-import dsj.dvmManager.liChessAdapter.LiChessAdapter;
-import dsj.dvmManager.liChessAdapter.LiChessChallenge;
-import dsj.dvmManager.liChessAdapter.LiChessGame;
+import dsj.dvmManager.liChessAdapter.*;
 import dsj.dvmManager.pgnParser.PgnGame;
 import dsj.dvmManager.pgnParser.PgnParserService;
 import dsj.dvmManager.player.Player;
@@ -63,9 +61,36 @@ public class DvmManagementService {
         List<Game> games = this.gameService.getAllGames();
         List<LiChessChallenge> challenges = Lists.newArrayList();
         for (Game game : games) {
-            challenges.add(liChessService.createChallenge(game));
+            try {
+                challenges.add(liChessService.createChallenge(game));
+            }
+            catch (Exception ex) {
+                logger.error(ex.getMessage());
+            }
         }
         return challenges;
+    }
+
+    public List<String> getPlayersWithInvalidTokens() {
+
+        List<String> playersWithInvalidTokens = Lists.newArrayList();
+
+        List<Player> players = playerService.findAll();
+
+        for (Player player : players) {
+            try {
+                liChessService.readAccount(player);
+            }
+            catch(LiChessAccountNotFoundException ex) {
+                playersWithInvalidTokens.add(player.getName());
+            }
+            catch(Exception ex) {
+                logger.error(ex.getMessage());
+            }
+        }
+
+        return playersWithInvalidTokens;
+
     }
 
     public List<TeamMatchDto> findAllTeamMatchDtos() {

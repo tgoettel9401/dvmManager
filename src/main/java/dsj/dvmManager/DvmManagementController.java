@@ -24,6 +24,11 @@ public class DvmManagementController {
         return dvmManagementService.createChallenges();
     }
 
+    @GetMapping("api/getPlayersWithInvalidTokens")
+    public List<String> getPlayersWithInvalidTokens() {
+        return dvmManagementService.getPlayersWithInvalidTokens();
+    }
+
     @GetMapping("api/getTeamMatches")
     public List<TeamMatchDto> getTeamMatches() {
         return dvmManagementService.findAllTeamMatchDtos();
