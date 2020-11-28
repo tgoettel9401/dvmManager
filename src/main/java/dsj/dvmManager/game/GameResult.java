@@ -31,7 +31,12 @@ public enum GameResult {
     }
 
     public double getPointsBlack() {
-        return 1.0 - getPointsWhite();
+        if (this.equals(BLACK_WINS))
+            return 1.0;
+        if (this.equals(DRAW))
+            return 0.5;
+        else
+            return 0.0;
     }
 
     static GameResult fromResultString(String resultString) {
