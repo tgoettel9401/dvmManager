@@ -10,9 +10,10 @@ public class GameDto {
 	
 	private String playerHome;
 	private String playerAway;
-	private GameColor playerHomeColor;
-	private GameColor playerAwayColor;
 	private GameResult result;
+
+	@JsonIgnore private GameColor playerHomeColor;
+	@JsonIgnore private GameColor playerAwayColor;
 	
 	private String liChessGameId; 
 	private String liChessGameStatus;

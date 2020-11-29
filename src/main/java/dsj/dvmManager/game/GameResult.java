@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum GameResult {
-    WHITE_WINS("1-0"), BLACK_WINS("0-1"), DRAW("0.5-0.5"), UNKNOWN("");
+    WHITE_WINS("1.0 - 0.0"), BLACK_WINS("0.0 - 1.0"), DRAW("0.5 - 0.5"), UNKNOWN(" - ");
 
     private String resultString;
 
