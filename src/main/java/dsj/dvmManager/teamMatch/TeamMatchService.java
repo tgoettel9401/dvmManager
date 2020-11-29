@@ -27,10 +27,15 @@ public class TeamMatchService {
         return teamMatchRepository.findAll();
     }
 
-    public TeamMatch createNewTeamMatch(Team teamWhite, Team teamBlack) {
+    public TeamMatch createNewTeamMatch(Team teamWhite, Team teamBlack, Integer boardNumber) {
         TeamMatch teamMatch = new TeamMatch();
-        teamMatch.setTeamHome(teamWhite);
-        teamMatch.setTeamAway(teamBlack);
+        if (boardNumber % 2 == 0) { // BoardNumber is even, so TeamHome is playing with White.
+            teamMatch.setTeamHome(teamWhite);
+            teamMatch.setTeamAway(teamBlack);
+        } else { // BoardNumber is odd, so TeamHome is playing with Black.
+            teamMatch.setTeamHome(teamBlack);
+            teamMatch.setTeamAway(teamWhite);
+        }
         return save(teamMatch);
     }
 
@@ -38,10 +43,13 @@ public class TeamMatchService {
         return teamMatchRepository.save(teamMatch);
     }
 
-    public TeamMatch findOrCreateTeamMatch(Team teamWhite, Team teamBlack) {
+    public TeamMatch findOrCreateTeamMatch(Team teamWhite, Team teamBlack, Integer boardNumber) {
         Optional<TeamMatch> teamMatchOptional = teamMatchRepository.findByTeamHomeAndTeamAway(teamWhite, teamBlack);
         Optional<TeamMatch> teamMatchOptionalReversed = teamMatchRepository.findByTeamHomeAndTeamAway(teamBlack, teamWhite);
-        return teamMatchOptional.orElseGet(() -> teamMatchOptionalReversed.orElseGet(() -> createNewTeamMatch(teamWhite, teamBlack)));
+        return teamMatchOptional.orElseGet(
+                () -> teamMatchOptionalReversed.orElseGet(
+                        () -> createNewTeamMatch(teamWhite, teamBlack, boardNumber))
+        );
     }
 
     public TeamMatchDto createTeamMatchDto(TeamMatch teamMatch) {

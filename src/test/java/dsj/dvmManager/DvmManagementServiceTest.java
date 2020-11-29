@@ -125,6 +125,7 @@ class DvmManagementServiceTest {
             swGame.setPlayerNameBlack(i + " - Black");
             swGame.setTeamNameWhite(i + " - Team White");
             swGame.setTeamNameBlack(i + " - Team Black");
+            swGame.setBoardNumber(i);
             swGames.add(swGame);
 
             Game game = new Game();
@@ -141,7 +142,7 @@ class DvmManagementServiceTest {
             Team teamBlack = mock(Team.class);
             when(teamService.findByName(i + " - Team Black")).thenReturn(teamBlack);
             TeamMatch teamMatch = mock(TeamMatch.class);
-            when(teamMatchService.findOrCreateTeamMatch(teamWhite, teamBlack)).thenReturn(teamMatch);
+            when(teamMatchService.findOrCreateTeamMatch(teamWhite, teamBlack, swGame.getBoardNumber())).thenReturn(teamMatch);
             when(gameService.createGameForSwissChessGame(swGame, teamMatch)).thenReturn(game);
         }
 

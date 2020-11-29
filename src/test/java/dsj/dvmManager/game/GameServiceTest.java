@@ -46,6 +46,7 @@ class GameServiceTest {
         when(swGame.getPlayerNameBlack()).thenReturn("Player-Black");
         when(swGame.getTeamNameWhite()).thenReturn("Team-White");
         when(swGame.getTeamNameBlack()).thenReturn("Team-Black");
+        when(swGame.getBoardNumber()).thenReturn(1);
 
         Player playerWhite = mock(Player.class);
         when(playerWhite.getName()).thenReturn("Player-White");
@@ -58,6 +59,7 @@ class GameServiceTest {
         when(correctGame.getResult()).thenReturn(GameResult.WHITE_WINS);
         when(correctGame.getPlayerWhite()).thenReturn(playerWhite);
         when(correctGame.getPlayerBlack()).thenReturn(playerBlack);
+        when(correctGame.getBoardNumber()).thenReturn(1);
 
         when(gameRepository.save(any())).thenReturn(correctGame);
 
@@ -65,6 +67,7 @@ class GameServiceTest {
         assertThat(returnedGame.getResult()).isEqualTo(correctGame.getResult());
         assertThat(returnedGame.getPlayerWhite()).isEqualTo(correctGame.getPlayerWhite());
         assertThat(returnedGame.getPlayerBlack()).isEqualTo(correctGame.getPlayerBlack());
+        assertThat(returnedGame.getBoardNumber()).isEqualTo(correctGame.getBoardNumber());
 
     }
 }

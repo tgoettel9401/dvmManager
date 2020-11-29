@@ -94,10 +94,10 @@ public class SwissChessImportIntegrationTest {
         List<TeamMatch> teamMatches = teamMatchService.findAll();
 
         // TeamMatch1
-        assertThat(teamMatches.stream().filter(teamMatch -> teamMatch.getTeamHome().getName().equals("Team1")).collect(Collectors.toList())).hasSize(1);
-        assertThat(teamMatches.stream().anyMatch(teamMatch -> teamMatch.getTeamHome().getName().equals("Team1"))).isTrue();
-        teamMatches.stream().filter(teamMatch -> teamMatch.getTeamHome().getName().equals("Team1")).findFirst().ifPresent(teamMatch -> assertThat(teamMatch.getTeamHome().getName()).isEqualTo("Team1"));
-        teamMatches.stream().filter(teamMatch -> teamMatch.getTeamHome().getName().equals("Team1")).findFirst().ifPresent(teamMatch -> assertThat(teamMatch.getTeamAway().getName()).isEqualTo("Team2"));
+        assertThat(teamMatches.stream().filter(teamMatch -> teamMatch.getTeamAway().getName().equals("Team1")).collect(Collectors.toList())).hasSize(1);
+        assertThat(teamMatches.stream().anyMatch(teamMatch -> teamMatch.getTeamAway().getName().equals("Team1"))).isTrue();
+        teamMatches.stream().filter(teamMatch -> teamMatch.getTeamAway().getName().equals("Team1")).findFirst().ifPresent(teamMatch -> assertThat(teamMatch.getTeamHome().getName()).isEqualTo("Team2"));
+        teamMatches.stream().filter(teamMatch -> teamMatch.getTeamHome().getName().equals("Team2")).findFirst().ifPresent(teamMatch -> assertThat(teamMatch.getTeamAway().getName()).isEqualTo("Team1"));
 
         // aaaaaaaaaaaaaaa GAMES aaaaaaaaaaaaaaaaaaaa
 
@@ -109,8 +109,8 @@ public class SwissChessImportIntegrationTest {
         games.stream().filter(game -> game.getPlayerWhite().getLastName().equals("Player1LastName")).findFirst().ifPresent(game -> {
             assertThat(game.getPlayerWhite().getLastName()).isEqualTo("Player1LastName");
             assertThat(game.getPlayerBlack().getLastName()).isEqualTo("Player4LastName");
-            assertThat(game.getTeamMatch().getTeamHome().getName()).isEqualTo("Team1");
-            assertThat(game.getTeamMatch().getTeamAway().getName()).isEqualTo("Team2");
+            assertThat(game.getTeamMatch().getTeamAway().getName()).isEqualTo("Team1");
+            assertThat(game.getTeamMatch().getTeamHome().getName()).isEqualTo("Team2");
             assertThat(game.getResult()).isEqualTo(GameResult.UNKNOWN);
         });
 
@@ -120,8 +120,8 @@ public class SwissChessImportIntegrationTest {
         games.stream().filter(game -> game.getPlayerWhite().getLastName().equals("Player2LastName")).findFirst().ifPresent(game -> {
             assertThat(game.getPlayerWhite().getLastName()).isEqualTo("Player2LastName");
             assertThat(game.getPlayerBlack().getLastName()).isEqualTo("Player3LastName");
-            assertThat(game.getTeamMatch().getTeamHome().getName()).isEqualTo("Team1");
-            assertThat(game.getTeamMatch().getTeamAway().getName()).isEqualTo("Team2");
+            assertThat(game.getTeamMatch().getTeamAway().getName()).isEqualTo("Team1");
+            assertThat(game.getTeamMatch().getTeamHome().getName()).isEqualTo("Team2");
             assertThat(game.getResult()).isEqualTo(GameResult.UNKNOWN);
         });
 

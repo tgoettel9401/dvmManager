@@ -10,4 +10,5 @@ public class SwissChessGame {
     private String playerNameBlack;
     private String teamNameWhite;
     private String teamNameBlack;
+    private Integer boardNumber;
 }

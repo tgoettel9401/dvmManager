@@ -37,7 +37,7 @@ class TeamMatchServiceTest {
         teamMatch.setTeamAway(teamBlack);
         when(teamMatchRepository.findByTeamHomeAndTeamAway(teamWhite, teamBlack)).thenReturn(Optional.of(teamMatch));
 
-        TeamMatch returnedTeamMatch = teamMatchService.findOrCreateTeamMatch(teamWhite, teamBlack);
+        TeamMatch returnedTeamMatch = teamMatchService.findOrCreateTeamMatch(teamWhite, teamBlack, 1);
         assertThat(returnedTeamMatch).isEqualTo(teamMatch);
 
         Team newTeamWhite = mock(Team.class);
@@ -46,7 +46,7 @@ class TeamMatchServiceTest {
         when(teamMatchRepository.findByTeamHomeAndTeamAway(newTeamWhite, newTeamBlack)).thenReturn(Optional.empty());
         when(teamMatchRepository.save(any())).thenReturn(newTeamMatch);
 
-        TeamMatch newReturnedTeamMatch = teamMatchService.findOrCreateTeamMatch(newTeamWhite, newTeamBlack);
+        TeamMatch newReturnedTeamMatch = teamMatchService.findOrCreateTeamMatch(newTeamWhite, newTeamBlack, 1);
         verify(teamMatchRepository, times(1)).save(any());
         assertThat(newReturnedTeamMatch).isEqualTo(newTeamMatch);
 

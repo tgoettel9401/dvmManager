@@ -92,7 +92,7 @@ public class InitalizationComponent implements InitializingBean {
 			if (counterMod2 == 1) {
 				firstTeam = team;
 			} else { // counterMod2 == 0, means second player
-				TeamMatch match = teamMatchService.createNewTeamMatch(firstTeam, team);
+				TeamMatch match = teamMatchService.createNewTeamMatch(firstTeam, team, 1);
 				match = teamMatchService.save(match);
 				teamMatches.add(match);
 			}

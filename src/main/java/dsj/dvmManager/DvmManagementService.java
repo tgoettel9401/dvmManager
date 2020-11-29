@@ -4,7 +4,10 @@ import com.google.common.collect.Lists;
 import dsj.dvmManager.game.Game;
 import dsj.dvmManager.game.GameService;
 import dsj.dvmManager.game.ManualGameRequest;
-import dsj.dvmManager.liChessAdapter.*;
+import dsj.dvmManager.liChessAdapter.LiChessAccountNotFoundException;
+import dsj.dvmManager.liChessAdapter.LiChessAdapter;
+import dsj.dvmManager.liChessAdapter.LiChessChallenge;
+import dsj.dvmManager.liChessAdapter.LiChessGame;
 import dsj.dvmManager.pgnParser.PgnGame;
 import dsj.dvmManager.pgnParser.PgnParserService;
 import dsj.dvmManager.player.Player;
@@ -170,7 +173,8 @@ public class DvmManagementService {
             try {
                 Team teamWhite = teamService.findByName(swissChessGame.getTeamNameWhite());
                 Team teamBlack = teamService.findByName(swissChessGame.getTeamNameBlack());
-                TeamMatch teamMatch = teamMatchService.findOrCreateTeamMatch(teamWhite, teamBlack);
+                TeamMatch teamMatch = teamMatchService
+                        .findOrCreateTeamMatch(teamWhite, teamBlack, swissChessGame.getBoardNumber());
                 games.add(gameService.createGameForSwissChessGame(swissChessGame, teamMatch));
             } catch (TeamNotFoundException | PlayerNotFoundException exception) {
                 exception.printStackTrace();
@@ -185,6 +189,6 @@ public class DvmManagementService {
         Player playerWhite = playerService.findById(gameRequest.getPlayerWhiteId());
         Player playerBlack = playerService.findById(gameRequest.getPlayerBlackId());
         TeamMatch teamMatch = teamMatchService.findById(gameRequest.getTeamMatchId());
-        return gameService.createGame(playerWhite, playerBlack, teamMatch);
+        return gameService.createGame(playerWhite, playerBlack, teamMatch, gameRequest.getBoardNumber());
     }
 }

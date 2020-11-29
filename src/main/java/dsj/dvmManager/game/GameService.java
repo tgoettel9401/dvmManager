@@ -29,12 +29,13 @@ public class GameService {
         return gameRepository.findAll();
     }
 
-    public Game createGame(Player playerWhite, Player playerBlack, TeamMatch teamMatch) {
+    public Game createGame(Player playerWhite, Player playerBlack, TeamMatch teamMatch, Integer boardNumber) {
         Game game = new Game();
         game.setPlayerWhite(playerWhite);
         game.setPlayerBlack(playerBlack);
         game.setTeamMatch(teamMatch);
         game.setResult(GameResult.UNKNOWN);
+        game.setBoardNumber(boardNumber);
         return save(game);
     }
 
@@ -67,6 +68,7 @@ public class GameService {
             dto.setResult(game.getResult().getOppositeResult());
         }
 
+        dto.setBoardNumber(game.getBoardNumber());
         dto.setLiChessGameId(game.getLiChessGameId());
         dto.setLiChessGameStatus(game.getLiChessGameStatus());
         dto.setLiChessGameMoves(game.getLiChessGameMoves());
@@ -83,7 +85,7 @@ public class GameService {
         Player playerBlack = playerService.findByNameAndTeamName(swissChessGame.getPlayerNameBlack(), swissChessGame.getTeamNameBlack());
 
         // Create and return Game.
-        return createGame(playerWhite, playerBlack, teamMatch);
+        return createGame(playerWhite, playerBlack, teamMatch, swissChessGame.getBoardNumber());
 
     }
 

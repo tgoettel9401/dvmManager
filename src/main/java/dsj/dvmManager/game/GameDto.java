@@ -1,23 +1,26 @@
 package dsj.dvmManager.game;
 
-import java.time.ZonedDateTime;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
+import java.time.ZonedDateTime;
+
 @Data
 public class GameDto {
-	
+
 	private String playerHome;
 	private String playerAway;
 	private GameResult result;
+	private Integer boardNumber;
 
-	@JsonIgnore private GameColor playerHomeColor;
-	@JsonIgnore private GameColor playerAwayColor;
-	
-	private String liChessGameId; 
+	@JsonIgnore
+	private GameColor playerHomeColor;
+	@JsonIgnore
+	private GameColor playerAwayColor;
+
+	private String liChessGameId;
 	private String liChessGameStatus;
-	private String liChessGameMoves; 
+	private String liChessGameMoves;
 	private ZonedDateTime liChessGameCreatedAt;
 	private ZonedDateTime liChessGameLastMoveAt;
 

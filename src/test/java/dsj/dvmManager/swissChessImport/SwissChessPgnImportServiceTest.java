@@ -83,6 +83,7 @@ class SwissChessPgnImportServiceTest {
         when(pgnGame.getPlayerNameBlack()).thenReturn("Player-Black");
         when(pgnGame.getTeamNameWhite()).thenReturn("Team-White");
         when(pgnGame.getTeamNameBlack()).thenReturn("Team-Black");
+        when(pgnGame.getBoardNumber()).thenReturn(1);
 
         SwissChessGame correctSwissChessGame = swissChessPgnImportService.getGameFromPgnGame(pgnGame);
 
@@ -91,6 +92,7 @@ class SwissChessPgnImportServiceTest {
         assertThat(correctSwissChessGame.getPlayerNameBlack()).isEqualTo(pgnGame.getPlayerNameBlack());
         assertThat(correctSwissChessGame.getTeamNameWhite()).isEqualTo(pgnGame.getTeamNameWhite());
         assertThat(correctSwissChessGame.getTeamNameBlack()).isEqualTo(pgnGame.getTeamNameBlack());
+        assertThat(correctSwissChessGame.getBoardNumber()).isEqualTo(1);
 
     }
 }

@@ -42,6 +42,7 @@ public class SwissChessPgnImportService {
         swissChessGame.setPlayerNameBlack(pgnGame.getPlayerNameBlack());
         swissChessGame.setTeamNameWhite(pgnGame.getTeamNameWhite());
         swissChessGame.setTeamNameBlack(pgnGame.getTeamNameBlack());
+        swissChessGame.setBoardNumber(pgnGame.getBoardNumber());
         return swissChessGame;
     }
 

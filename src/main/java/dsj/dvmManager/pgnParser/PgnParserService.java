@@ -56,6 +56,8 @@ public class PgnParserService {
 		pgn.setPlayerNameBlack(pgnRaw.getPlayerNameBlack());
 		pgn.setTeamNameWhite(pgnRaw.getTeamNameWhite());
 		pgn.setTeamNameBlack(pgnRaw.getTeamNameBlack());
+		if (!pgnRaw.getBoardNumber().isEmpty()) // BoardNumber may be not existing for importing pgn from Lichess.
+			pgn.setBoardNumber(Integer.parseInt(pgnRaw.getBoardNumber()));
 		return pgn;
 	}
 
@@ -125,6 +127,9 @@ public class PgnParserService {
 				return pgnRaw;
 			case TEAM_BLACK:
 				pgnRaw.setTeamNameBlack(value);
+				return pgnRaw;
+			case BOARD:
+				pgnRaw.setBoardNumber(value);
 				return pgnRaw;
 			default:
 				return pgnRaw;

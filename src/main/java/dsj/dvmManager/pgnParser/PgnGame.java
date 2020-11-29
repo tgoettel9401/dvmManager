@@ -11,5 +11,6 @@ public class PgnGame {
     private String playerNameBlack;
     private String teamNameWhite;
     private String teamNameBlack;
+    private Integer boardNumber;
 
 }
