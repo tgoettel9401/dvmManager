@@ -35,7 +35,7 @@ public class PlayerService {
         if (playerOptional.isPresent()) {
             return playerOptional.get();
         } else {
-            throw new PlayerNotFoundException();
+            throw new PlayerNotFoundException(playerName);
         }
     }
 
@@ -105,6 +105,6 @@ public class PlayerService {
 
     public Player findById(Long playerWhiteId) throws PlayerNotFoundException {
         Optional<Player> playerOptional = playerRepository.findById(playerWhiteId);
-        return playerOptional.orElseThrow(PlayerNotFoundException::new);
+        return playerOptional.orElseThrow(() -> new PlayerNotFoundException(playerWhiteId.toString()));
     }
 }

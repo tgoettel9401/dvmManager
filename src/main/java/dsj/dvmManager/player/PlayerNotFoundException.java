@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
 public class PlayerNotFoundException extends Exception {
-    public PlayerNotFoundException() {
-        super("Player does not exist, please check the players");
+    public PlayerNotFoundException(String playerName) {
+        super("Player " + playerName + " does not exist, please check the players");
     }
 }
